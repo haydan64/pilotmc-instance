@@ -27,7 +27,7 @@ system.beforeEvents.startup.subscribe((init) => {
         description: "Restarts the bds server.",
         permissionLevel: CommandPermissionLevel.GameDirectors
     };
-    init.customCommandRegistry.registerCommand(stopCommand, (commandSource, commandArgs) => {
+    init.customCommandRegistry.registerCommand(restartCommand, (commandSource, commandArgs) => {
         sendEvent("restart");
     });
 

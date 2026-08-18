@@ -72,7 +72,12 @@ world.beforeEvents.chatSend.subscribe((eventData) => {
 
     eventData.cancel = true;
 
-    world.sendMessage({ rawtext: [{ "text": `<${eventData.sender.name}> ${message}` }] });
+    // Keep the canonical player name in relayed events, but honor a behavior
+    // pack-provided display name (including formatting) inside Minecraft chat.
+    const displayName = eventData.sender.nameTag || eventData.sender.name;
+    const nameFormatting = displayName.match(/^(?:§.)+/)?.[0] ?? "";
+    const visibleName = displayName.slice(nameFormatting.length).replace(/§r$/, "");
+    world.sendMessage({ rawtext: [{ "text": `${nameFormatting}<${visibleName}>§r ${message}` }] });
 });
 
 
