@@ -1,0 +1,21 @@
+{
+  "name": "pilotmc-instance",
+  "version": "1.0.0",
+  "description": "Generic PilotMC agent for a Minecraft Bedrock server instance",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "check": "node scripts/check.js ."
+  },
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@minecraft/server": "^2.10.0-beta.1.26.43-stable",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0",
+    "socket.io-client": "^4.8.3"
+  }
+}

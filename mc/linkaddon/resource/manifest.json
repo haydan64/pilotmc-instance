@@ -1,0 +1,17 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Link Addon Resources",
+    "description": "Resource pack placeholder for automation",
+    "uuid": "d2e3d3ce-7c28-4728-9e21-0f0b3f00d8d8",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 20, 0]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "0f5ad59f-2f07-4f3a-8f3d-9c95fcd0b5d5",
+      "version": [1, 0, 0]
+    }
+  ]
+}

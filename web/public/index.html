@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PilotMC Console</title>
+  <link rel="stylesheet" href="/web/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>PilotMC Console</h1>
+      <p id="statusLine">Connecting...</p>
+    </div>
+    <div class="actions">
+      <button id="openCommandModal">Command</button>
+      <button data-action="reload">Reload BDS</button>
+      <button data-action="backup">Backup</button>
+      <button data-action="restart">Restart</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls">
+      <h2>Logs</h2>
+      <fieldset data-filter="category">
+        <legend>View</legend>
+        <label><input type="checkbox" value="death"> Player Deaths</label>
+        <label><input type="checkbox" value="discord"> Discord Logs</label>
+        <label><input type="checkbox" value="minecraft"> Minecraft Events</label>
+        <label><input type="checkbox" value="server"> Server Logs</label>
+        <label><input type="checkbox" value="home"> Home Logs</label>
+        <label><input type="checkbox" value="module"> Module Logs</label>
+        <label><input type="checkbox" value="status"> Status</label>
+      </fieldset>
+      <fieldset data-filter="source">
+        <legend>Source</legend>
+        <label><input type="checkbox" value="minecraft"> Minecraft</label>
+        <label><input type="checkbox" value="discord"> Discord</label>
+        <label><input type="checkbox" value="server"> Server</label>
+        <label><input type="checkbox" value="console"> Console</label>
+        <label><input type="checkbox" value="server-state"> Server State</label>
+      </fieldset>
+      <fieldset data-filter="level">
+        <legend>Level</legend>
+        <label><input type="checkbox" value="info"> Info</label>
+        <label><input type="checkbox" value="log"> Log</label>
+        <label><input type="checkbox" value="warn"> Warn</label>
+        <label><input type="checkbox" value="error"> Error</label>
+      </fieldset>
+      <label>
+        Player / Text
+        <input id="query" type="search" placeholder="Minecraft name, Discord user, or text">
+      </label>
+      <label>
+        Limit
+        <input id="limit" type="number" min="1" max="1000" value="250">
+      </label>
+    </section>
+
+    <section class="panel log-panel">
+      <div class="log-header">
+        <h2>Live Logs</h2>
+        <span id="logCount"></span>
+      </div>
+      <div id="logs" class="logs"></div>
+    </section>
+  </main>
+
+  <dialog id="commandModal">
+    <form method="dialog" class="modal">
+      <div class="modal-header">
+        <h2>Server Command</h2>
+        <button id="closeCommandModal" value="cancel" class="icon-button">Close</button>
+      </div>
+      <label>
+        Command
+        <input id="command" type="text" placeholder='say Hello, kick "Player", time query daytime'>
+      </label>
+      <label>
+        Admin Token
+        <input id="token" type="password" placeholder="Only needed if WEB_ADMIN_TOKEN is set">
+      </label>
+      <div class="modal-actions">
+        <button id="sendCommand" type="button">Send Command</button>
+      </div>
+      <pre id="commandResult"></pre>
+    </form>
+  </dialog>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "enableAutoBackup": false,
+  "enableBackupCleanup": true,
+  "backupFrequencyMinutes": 60,
+  "backupDirectory": "mc/backups",
+  "zipBackups": false,
+  "sevenZipPath": "",
+  "transientBackupRetentionDays": 2,
+  "hourlyBackupRetentionDays": 7,
+  "dailyBackupRetentionDays": 32,
+  "weeklyBackupRetentionDays": 365,
+  "autoRestartAfterCrash": false,
+  "autoRestartAttempts": 3
+}
