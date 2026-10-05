@@ -22,3 +22,7 @@ This repository contains no worlds, Bedrock binaries, credentials, community-spe
 Module contents and runtime configuration are ignored by Git. Modules are discovered with dynamic `import()` and receive the generic server context during startup.
 
 `mclink` is generated with the configured local agent URL when the server starts, allowing multiple instances on one host. Set `BDS_WORLD_NAME` when the world's `level-name` is not `Bedrock level`.
+
+## Central configuration
+
+Set BACKEND_CONFIG_TOKEN to the read token provisioned for instance:<SERVER_KEY> in Core Backend, alongside BACKEND_URL and the existing runtime API token. The instance downloads only its own backup and restart behavior before starting; cached settings support established deployments during Backend outages. New valid versions are cached every 30 seconds and apply when the Node controller restarts. Set BACKUP_DIRECTORY and SEVEN_ZIP_PATH locally. Core Website admins edit this server under Configuration / Minecraft servers. Without a configuration-read token, legacy mcConfig.json remains supported.

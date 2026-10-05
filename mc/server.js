@@ -115,6 +115,8 @@ function loadMcConfig() {
     weeklyBackupRetentionDays: 365
   };
 
+  const central = require('../configuration/client').getActiveConfig();
+  if (central) return { ...fallback, ...central.instance, backupDirectory: process.env.BACKUP_DIRECTORY || fallback.backupDirectory, sevenZipPath: process.env.SEVEN_ZIP_PATH || fallback.sevenZipPath };
   try {
     if (!fs.existsSync(MC_CONFIG_PATH)) return fallback;
     return { ...fallback, ...JSON.parse(fs.readFileSync(MC_CONFIG_PATH, 'utf8')) };
@@ -879,6 +881,7 @@ class BedrockServerController {
   }
 
   setBackupCleanupEnabled(enabled) {
+    if (require('../configuration/client').getActiveConfig()) return { ok: false, message: 'Backup cleanup is managed in the website configuration editor. Save there and restart this instance.' };
     if (typeof enabled !== 'boolean') {
       return { ok: false, message: 'Backup cleanup requires an enabled boolean.' };
     }
