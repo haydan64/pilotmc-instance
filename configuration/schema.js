@@ -5,7 +5,7 @@ const object = (title, properties) => ({ type: 'object', title, properties, addi
 const list = (title, items, extra = {}) => ({ type: 'array', title, items, default: [], maxItems: 100, ...extra });
 const role = (title) => text(title, { pattern: '^$|^[0-9]{17,20}$', description: 'Discord role ID' });
 const channel = (title) => text(title, { pattern: '^$|^[0-9]{17,20}$', description: 'Discord channel ID' });
-const roleList = (title) => list(title, role('Role ID'));
+const roleList = (title) => list(title, { ...role('Role ID'), minLength: 17, pattern: '^[0-9]{17,20}$' });
 const instanceSchema = object('Minecraft behavior', {
   enableAutoBackup: flag('Automatic backups'), enableBackupCleanup: flag('Backup cleanup', true),
   backupFrequencyMinutes: number('Backup interval (minutes)', 60, 1, 10080), zipBackups: flag('Compress backups'),
@@ -104,7 +104,7 @@ function assertConfig(config) {
         if (Object.keys(embed).some(key => !allowed.includes(key))) errors.push(`${server.key}: invalid embed property`);
         if (embed.title !== undefined && (typeof embed.title !== 'string' || embed.title.length > 256)) errors.push(`${server.key}: invalid embed title`);
         if (embed.description !== undefined && (typeof embed.description !== 'string' || embed.description.length > 4096)) errors.push(`${server.key}: invalid embed description`);
-        if (embed.fields !== undefined && (!Array.isArray(embed.fields) || embed.fields.length > 25 || embed.fields.some(field => typeof field.name !== 'string' || !field.name.length || field.name.length > 256 || typeof field.value !== 'string' || !field.value.length || field.value.length > 1024))) errors.push(`${server.key}: invalid embed fields`);
+        if (embed.fields !== undefined && (!Array.isArray(embed.fields) || embed.fields.length > 25 || embed.fields.some(field => !field || typeof field !== 'object' || typeof field.name !== 'string' || !field.name.length || field.name.length > 256 || typeof field.value !== 'string' || !field.value.length || field.value.length > 1024))) errors.push(`${server.key}: invalid embed fields`);
         const nested = (value, allowedKeys, requiredText, limit, label) => {
           if (value === undefined) return;
           if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !allowedKeys.includes(key))) { errors.push(`${server.key}: invalid ${label}`); return; }
@@ -123,7 +123,7 @@ function assertConfig(config) {
         if (embed.url !== undefined) { try { const parsed = new URL(embed.url); if (typeof embed.url !== 'string' || !['http:','https:'].includes(parsed.protocol) || parsed.username || parsed.password) throw new Error(); } catch { errors.push(`${server.key}: invalid embed URL`); } }
         if (embed.color !== undefined && (!Number.isInteger(embed.color) || embed.color < 0 || embed.color > 0xffffff)) errors.push(`${server.key}: invalid embed color`);
         if (embed.timestamp !== undefined && (typeof embed.timestamp !== 'string' || !Number.isFinite(Date.parse(embed.timestamp)))) errors.push(`${server.key}: invalid embed timestamp`);
-        length += (embed.title || '').length + (embed.description || '').length + (embed.footer?.text || '').length + (embed.author?.name || '').length + (Array.isArray(embed.fields) ? embed.fields.reduce((sum, field) => sum + String(field.name || '').length + String(field.value || '').length, 0) : 0);
+        length += (embed.title || '').length + (embed.description || '').length + (embed.footer?.text || '').length + (embed.author?.name || '').length + (Array.isArray(embed.fields) ? embed.fields.reduce((sum, field) => sum + String(field?.name || '').length + String(field?.value || '').length, 0) : 0);
       }
       if (length > 6000) errors.push(`${server.key}: listing embed text exceeds 6000 characters`);
     }
